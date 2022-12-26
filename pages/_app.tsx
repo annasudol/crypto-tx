@@ -11,14 +11,10 @@ import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 
-const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || ''
+const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!!
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [
-
-    chain.polygonMumbai,
-  
-  ],
+  [chain.polygonMumbai],
   [
     alchemyProvider({
       apiKey: ALCHEMY_API_KEY,
@@ -26,15 +22,13 @@ const { chains, provider, webSocketProvider } = configureChains(
     publicProvider(),
   ]
 )
-
+const demoAppInfo = {
+  appName: 'Tx Mumbai',
+}
 const { wallets } = getDefaultWallets({
-  appName: 'RainbowKit demo',
+  demoAppInfo,
   chains,
 })
-
-const demoAppInfo = {
-  appName: 'Rainbowkit Demo',
-}
 
 const connectors = connectorsForWallets(wallets)
 

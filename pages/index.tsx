@@ -1,52 +1,75 @@
-import { Box, Divider, Heading, Text } from '@chakra-ui/react'
-import { ethers } from 'ethers'
+import { Box, Divider, Heading, Text, useToast } from '@chakra-ui/react'
 import type { NextPage } from 'next'
-import { useAccount, useProvider } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { Layout } from '../components/layout/Layout'
-import { useIsMounted } from '../hooks/useIsMounted'
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { AppConfig } from '@/utils/AppConfig'
+import { useIsMounted } from '@/hooks/useIsMounted'
+
 import { useEffect } from 'react'
+const NEXT_POLYSCAL_API_KEY = process.env.NEXT_POLYSCAL_API_KEY!!
 
 const Home: NextPage = () => {
   const { address } = useAccount()
+  const { isMounted } = useIsMounted()
+  const toast = useToast()
+
   useEffect(() => {
     const url = `https://api-testnet.polygonscan.com/api`
-    const config = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+    const params = {
+      module: 'account',
+      action: 'txlist',
+      address,
+      startblock: 0,
+      endblock: 99999999,
+      apikey: NEXT_POLYSCAL_API_KEY,
     }
-    axios
-      .get(
-        'https://api-testnet.polygonscan.com/api?module=account&action=txlist&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=YourApiKeyToken',
-        config
-      )
-      .then(function (response) {
-        // handle success
-        console.log(response)
-      })
-    //   sendRequest(url, method, body) {
-    //     const options = {
-    //         method: method,
-    //         headers: new Headers({'content-type': 'application/json'}),
-    //         mode: 'no-cors'
-    //     };
 
-    //     options.body = JSON.stringify(body);
+    async function getTransactionsData(): Promise<Array<any>> {
+      const options: AxiosRequestConfig = {
+        method: 'GET',
+        url,
+        params,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
 
-    //     return fetch(url, options);
-    // }
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        // setTimeout(() => setStory(data), 1500)
-        console.log('Success ', data)
-      })
-      .catch((error) => {
-        console.log('Error', error)
-      })
+      try {
+        const result = await axios(options)
+        if (
+          result.status === 200 &&
+          result.data &&
+          result.data.message === 'OK'
+        ) {
+          console.log(result.data)
+          return result.data
+        } else {
+          toast({
+            title: 'failed fetching data',
+            description: <Text>{result.status}</Text>,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          })
+        }
+        return []
+      } catch (error: any) {
+        toast({
+          title: 'Error fetching data',
+          description: <Text>{error.code || error.response.status}</Text>,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        })
+        return []
+      }
+    }
+    address && getTransactionsData()
   }, [])
+  if (!isMounted) {
+    return null
+  }
 
   return (
     <Layout>
