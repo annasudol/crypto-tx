@@ -1,4 +1,4 @@
-import { Container, Flex, SimpleGrid, Text } from '@chakra-ui/react'
+import { Container, Flex, Box, Text } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { Head, MetaProps } from './Head'
 import { AppConfig } from '@/utils/AppConfig'
@@ -13,22 +13,25 @@ export const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
     <>
       <Head customMeta={customMeta} />
       <header>
-        <Container maxWidth="container.xl" centerContent mt="8" py="8">
-          <ConnectButton />
+        <Container maxWidth="container.xl" mt="8" py="8">
+          <Flex alignItems={'center'} justifyContent={'flex-end'}>
+            <ConnectButton />
+          </Flex>
         </Container>
       </header>
       <main>
-        <Container maxWidth="container.xl" centerContent>
-          {children}
-        </Container>
+        <Container maxWidth="container.xl">{children}</Container>
       </main>
       <footer>
         <Container
-          mt="8"
-          py="8"
-          maxWidth="container.xl"
+          maxW="2xl"
           centerContent
-          style={{ position: 'fixed', bottom: 0 }}
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            right: 0,
+            left: 0,
+          }}
         >
           <Text mb="4">
             © Copyright {new Date().getFullYear()} {AppConfig.title}
