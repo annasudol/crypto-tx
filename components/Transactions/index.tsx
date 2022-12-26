@@ -1,22 +1,43 @@
-import { Box, Divider, Heading, Text, useToast } from '@chakra-ui/react'
+import { Text, useToast, Stack } from '@chakra-ui/react'
 import { useAccount } from 'wagmi'
 import axios, { AxiosRequestConfig } from 'axios'
 import { TransactionItem } from './TransactionItem'
-import { ITxData } from 'types'
-import PaginationControlled from './PG'
+import {
+  Pagination,
+  usePagination,
+  PaginationPage,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationPageGroup,
+  PaginationContainer,
+  PaginationSeparator,
+} from '@ajna/pagination'
 
-import { useEffect, useState } from 'react'
+import { ITxData } from 'types'
+import { paginate } from '@/utils/paginate'
+import { useEffect, useMemo, useState } from 'react'
 const NEXT_POLYSCAL_API_KEY = process.env.NEXT_POLYSCAL_API_KEY!!
 
 export const TransactionList: React.FC = () => {
   const { address } = useAccount()
   const toast = useToast()
   const [txData, setTxData] = useState<ITxData[]>([])
-  const [page, setPage] = useState<number>(1)
-  const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value)
-  }
-
+  const {
+    pages,
+    pagesCount,
+    currentPage,
+    setCurrentPage,
+    isDisabled,
+    pageSize,
+  } = usePagination({
+    total: txData.length,
+    limits: { outer: 2, inner: 2 },
+    initialState: {
+      pageSize: 5,
+      isDisabled: false,
+      currentPage: 1,
+    },
+  })
   useEffect(() => {
     const url = `https://api-testnet.polygonscan.com/api`
     const params = {
@@ -70,13 +91,78 @@ export const TransactionList: React.FC = () => {
     }
     address && getTransactionsData()
   }, [])
+  const handlePageChange = (nextPage: number): void => {
+    setCurrentPage(nextPage)
+  }
 
   return (
-    <div>
-      {/* {txData.map((data) => {
+    <Stack>
+      {paginate(txData, 5, currentPage).map((data) => {
         return <TransactionItem {...data} />
-      })} */}
-      <PaginationControlled />
-    </div>
+      })}
+
+      <Pagination
+        pagesCount={pagesCount}
+        currentPage={currentPage}
+        isDisabled={isDisabled}
+        onPageChange={handlePageChange}
+      >
+        <PaginationContainer
+          align="center"
+          justify="space-between"
+          p={4}
+          w="full"
+        >
+          <PaginationPrevious
+            _hover={{
+              bg: 'yellow.400',
+            }}
+            bg="yellow.300"
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            <Text>Previous</Text>
+          </PaginationPrevious>
+          <PaginationPageGroup
+            isInline
+            align="center"
+            separator={
+              <PaginationSeparator
+                onClick={() => handlePageChange(currentPage + 1)}
+                bg="blue.300"
+                fontSize="sm"
+                w={7}
+                jumpSize={11}
+              />
+            }
+          >
+            {pages.map((page: number) => (
+              <PaginationPage
+                w={7}
+                bg="red.300"
+                key={`pagination_page_${page}`}
+                page={page}
+                fontSize="sm"
+                _hover={{
+                  bg: 'green.300',
+                }}
+                _current={{
+                  bg: 'green.300',
+                  fontSize: 'sm',
+                  w: 7,
+                }}
+              />
+            ))}
+          </PaginationPageGroup>
+          <PaginationNext
+            _hover={{
+              bg: 'yellow.400',
+            }}
+            bg="yellow.300"
+          >
+            <Text>Next</Text>
+          </PaginationNext>
+        </PaginationContainer>
+      </Pagination>
+    </Stack>
   )
 }

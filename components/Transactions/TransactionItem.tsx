@@ -3,9 +3,9 @@ import { useAccount } from 'wagmi'
 
 import { ITxData } from 'types'
 
-export const TransactionItem: React.FC<ITxData> = () => {
+export const TransactionItem: React.FC<ITxData> = ({ nonce }) => {
   const { address } = useAccount()
   const toast = useToast()
 
-  return <div></div>
+  return <div>{nonce}</div>
 }
