@@ -19,10 +19,10 @@ const Home: NextPage = () => {
       <Heading as="h1" mb="8">
         {AppConfig.site_name}
       </Heading>
-      <Text fontSize="lg" mb="4">
+      <Text as="h2" fontSize="lg" mb="4">
         {AppConfig.description}
       </Text>
-      <Text mt="8" fontSize="xl">
+      <Text mt="8" mb="4" fontSize="md">
         This page only works only on the Polygon Mumbai Testnet
       </Text>
       <TransactionList />

@@ -33,7 +33,7 @@ export const TransactionList: React.FC = () => {
     total: txData.length,
     limits: { outer: 2, inner: 2 },
     initialState: {
-      pageSize: 5,
+      pageSize: 3,
       isDisabled: false,
       currentPage: 1,
     },
@@ -94,10 +94,11 @@ export const TransactionList: React.FC = () => {
   const handlePageChange = (nextPage: number): void => {
     setCurrentPage(nextPage)
   }
+  console.log(txData, 'txData')
 
   return (
     <Stack>
-      {paginate(txData, 5, currentPage).map((data) => {
+      {paginate(txData, 3, currentPage).map((data) => {
         return <TransactionItem {...data} />
       })}
 

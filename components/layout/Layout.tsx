@@ -22,23 +22,25 @@ export const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
         </Container>
       </header>
       <main>
-        <Container maxWidth="container.md">{children}</Container>
+        <Container maxWidth="container.md" pb={12}>
+          {children}
+        </Container>
       </main>
       <footer>
-        <Container
-          maxW="2xl"
-          centerContent
-          style={{
-            position: 'fixed',
-            bottom: 0,
-            right: 0,
-            left: 0,
-          }}
+        <Box
+          bg="white"
+          width="full"
+          mt="20"
+          textAlign="center"
+          position="fixed"
+          bottom="0"
+          right="0"
+          left="0"
         >
           <Text mb="4">
             © Copyright {AppConfig.site_name} {new Date().getFullYear()}
           </Text>
-        </Container>
+        </Box>
       </footer>
     </>
   )
