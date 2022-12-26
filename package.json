@@ -1,0 +1,46 @@
+{
+  "name": "crypto-tx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "next.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/annasudol/crypto-tx.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.4.1",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@rainbow-me/rainbowkit": "^0.8.0",
+    "ethers": "^5.7.2",
+    "framer-motion": "^7.6.7",
+    "ipfs-http-client": "^59.0.0",
+    "next": "^13.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "wagmi": "^0.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.25",
+    "eslint": "^8.28.0",
+    "eslint-config-next": "^13.0.4",
+    "typescript": "^4.9.3"
+  },
+  "bugs": {
+    "url": "https://github.com/annasudol/crypto-tx/issues"
+  },
+  "homepage": "https://github.com/annasudol/crypto-tx#readme"
+}
