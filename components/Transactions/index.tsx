@@ -1,4 +1,4 @@
-import { Text, useToast, Stack, Flex } from '@chakra-ui/react'
+import { Text, useToast, Stack, Flex, Box } from '@chakra-ui/react'
 import { useAccount } from 'wagmi'
 import axios, { AxiosRequestConfig } from 'axios'
 import { TransactionItem } from './TransactionItem'
@@ -24,7 +24,7 @@ export const TransactionList: React.FC = () => {
   const toast = useToast()
   const [txData, setTxData] = useState<ITxData[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
+  const [message, setMessage] = useState<string>()
   const { pages, pagesCount, currentPage, setCurrentPage, isDisabled } =
     usePagination({
       total: txData.length,
@@ -58,6 +58,7 @@ export const TransactionList: React.FC = () => {
       setIsLoading(true)
       try {
         const result = await axios(options)
+        console.log(result)
         if (
           result.status === 200 &&
           result.data &&
@@ -66,16 +67,16 @@ export const TransactionList: React.FC = () => {
           setTxData(result.data.result)
           setIsLoading(false)
         } else {
-          toast({
-            title: 'failed fetching data',
-            description: <Text>{result.status}</Text>,
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-          })
+          setMessage(result.data.message)
+          // toast({
+          //   title: 'failed fetching data',
+          //   description: <Text>{result.status}</Text>,
+          //   status: 'error',
+          //   duration: 5000,
+          //   isClosable: true,
+          // })
         }
         setIsLoading(false)
-        return []
       } catch (error: any) {
         toast({
           title: 'Error fetching data',
@@ -104,6 +105,21 @@ export const TransactionList: React.FC = () => {
           size="xl"
         />
       </Flex>
+    )
+  }
+  if (message) {
+    return (
+      <Box height="150px" mb="2" bg="gray.100" rounded={'md'} padding="2">
+        <Text
+          fontSize="2xl"
+          mb="1"
+          textColor="gray.500"
+          textAlign="center"
+          mt="12"
+        >
+          {message}
+        </Text>
+      </Box>
     )
   }
   return (
