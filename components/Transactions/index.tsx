@@ -1,4 +1,4 @@
-import { Text, useToast, Stack } from '@chakra-ui/react'
+import { Text, useToast, Stack, Flex } from '@chakra-ui/react'
 import { useAccount } from 'wagmi'
 import axios, { AxiosRequestConfig } from 'axios'
 import { TransactionItem } from './TransactionItem'
@@ -15,29 +15,26 @@ import {
 
 import { ITxData } from 'types'
 import { paginate } from '@/utils/paginate'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Spinner } from '@chakra-ui/react'
 const NEXT_POLYSCAL_API_KEY = process.env.NEXT_POLYSCAL_API_KEY!!
 
 export const TransactionList: React.FC = () => {
   const { address } = useAccount()
   const toast = useToast()
   const [txData, setTxData] = useState<ITxData[]>([])
-  const {
-    pages,
-    pagesCount,
-    currentPage,
-    setCurrentPage,
-    isDisabled,
-    pageSize,
-  } = usePagination({
-    total: txData.length,
-    limits: { outer: 2, inner: 2 },
-    initialState: {
-      pageSize: 3,
-      isDisabled: false,
-      currentPage: 1,
-    },
-  })
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const { pages, pagesCount, currentPage, setCurrentPage, isDisabled } =
+    usePagination({
+      total: txData.length,
+      limits: { outer: 2, inner: 2 },
+      initialState: {
+        pageSize: 3,
+        isDisabled: false,
+        currentPage: 1,
+      },
+    })
   useEffect(() => {
     const url = `https://api-testnet.polygonscan.com/api`
     const params = {
@@ -58,7 +55,7 @@ export const TransactionList: React.FC = () => {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       }
-
+      setIsLoading(true)
       try {
         const result = await axios(options)
         if (
@@ -67,7 +64,7 @@ export const TransactionList: React.FC = () => {
           result.data.message === 'OK'
         ) {
           setTxData(result.data.result)
-          return result.data
+          setIsLoading(false)
         } else {
           toast({
             title: 'failed fetching data',
@@ -77,6 +74,7 @@ export const TransactionList: React.FC = () => {
             isClosable: true,
           })
         }
+        setIsLoading(false)
         return []
       } catch (error: any) {
         toast({
@@ -86,6 +84,7 @@ export const TransactionList: React.FC = () => {
           duration: 5000,
           isClosable: true,
         })
+        setIsLoading(false)
         return []
       }
     }
@@ -94,8 +93,19 @@ export const TransactionList: React.FC = () => {
   const handlePageChange = (nextPage: number): void => {
     setCurrentPage(nextPage)
   }
-  console.log(txData, 'txData')
-
+  if (isLoading) {
+    return (
+      <Flex justifyContent="center" alignItems="center" height="md">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Flex>
+    )
+  }
   return (
     <Stack>
       {paginate(txData, 3, currentPage).map((data) => {

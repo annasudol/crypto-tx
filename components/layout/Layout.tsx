@@ -15,8 +15,8 @@ export const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
     <>
       <Head customMeta={customMeta} />
       <header>
-        <Container maxWidth="container.md" mt="8" py="8">
-          <Flex alignItems={'center'} justifyContent={'flex-end'}>
+        <Container maxWidth="container.md" mt="1" py="4">
+          <Flex alignItems="center" justifyContent="flex-end">
             <ConnectButton />
           </Flex>
         </Container>
