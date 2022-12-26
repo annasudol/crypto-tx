@@ -4,7 +4,10 @@
   "description": "",
   "main": "next.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "repository": {
     "type": "git",
@@ -13,21 +16,18 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
   "dependencies": {
     "@chakra-ui/react": "^2.4.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@rainbow-me/rainbowkit": "^0.8.0",
+    "axios": "^1.2.1",
     "ethers": "^5.7.2",
     "framer-motion": "^7.6.7",
+    "i": "^0.3.7",
     "ipfs-http-client": "^59.0.0",
     "next": "^13.0.4",
+    "npm": "^9.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "wagmi": "^0.8.5"

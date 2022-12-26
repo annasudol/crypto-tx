@@ -12,20 +12,15 @@ const Home: NextPage = () => {
   const { address } = useAccount()
   useEffect(() => {
     const url = `https://api-testnet.polygonscan.com/api`
-
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
     axios
       .get(
-        'https://api-testnet.polygonscan.com/api',
-        {
-          module: 'account',
-          action: 'txlist',
-          address: '0x756212f2Eb2cbd97CAc8B8f16ff044fe6281FDcf',
-          startblock: 0,
-          endblock: 99999999,
-          sort: 'asc',
-          apikey: 'WUFIHMN5Z6KEG518REMKFMD928HKSS4KWT',
-        },
-        { 'Content-Type': 'application/x-www-form-urlencoded' }
+        'https://api-testnet.polygonscan.com/api?module=account&action=txlist&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=YourApiKeyToken',
+        config
       )
       .then(function (response) {
         // handle success
