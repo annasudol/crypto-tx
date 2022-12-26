@@ -5,7 +5,7 @@ import { Layout } from '../components/layout/Layout'
 
 import { AppConfig } from '@/utils/AppConfig'
 import { useIsMounted } from '@/hooks/useIsMounted'
-import { Transactions } from '../components/Transactions'
+import { TransactionList } from '../components/Transactions'
 
 const Home: NextPage = () => {
   const { isMounted } = useIsMounted()
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
       <Text mt="8" fontSize="xl">
         This page only works only on the Polygon Mumbai Testnet
       </Text>
-      <Transactions />
+      <TransactionList />
     </Layout>
   )
 }

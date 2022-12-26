@@ -7,7 +7,7 @@ import { ITxData } from 'types'
 
 const NEXT_POLYSCAL_API_KEY = process.env.NEXT_POLYSCAL_API_KEY!!
 
-export const TransactionList: React.FC<ITxData> = () => {
+export const TransactionList: React.FC = () => {
   const { address } = useAccount()
   const toast = useToast()
 
