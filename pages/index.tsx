@@ -16,13 +16,13 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
-      <Heading as="h1" mb="8">
+      <Heading as="h1" mb="2" fontSize="2xl">
         {AppConfig.site_name}
       </Heading>
-      <Text as="h2" fontSize="lg" mb="4">
+      <Text as="h2" fontSize="lg" mb="2">
         {AppConfig.description}
       </Text>
-      <Text mt="8" mb="4" fontSize="md">
+      <Text as="h3" mb="4" fontSize="md">
         This page only works only on the Polygon Mumbai Testnet
       </Text>
       <TransactionList />
