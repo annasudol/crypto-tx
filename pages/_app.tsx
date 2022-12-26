@@ -22,11 +22,11 @@ const { chains, provider, webSocketProvider } = configureChains(
     publicProvider(),
   ]
 )
-const demoAppInfo = {
+const appInfo = {
   appName: 'Tx Mumbai',
 }
 const { wallets } = getDefaultWallets({
-  demoAppInfo,
+  appInfo,
   chains,
 })
 
@@ -43,7 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider
-        appInfo={demoAppInfo}
+        appInfo={appInfo}
         chains={chains}
         theme={darkTheme({
           borderRadius: 'small',
