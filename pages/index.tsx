@@ -8,15 +8,7 @@ import { useIsMounted } from '../hooks/useIsMounted'
 import { AppConfig } from '@/utils/AppConfig'
 
 const Home: NextPage = () => {
-  const { isMounted } = useIsMounted()
-
   const { address } = useAccount()
-
-  const provider = useProvider()
-
-  if (!isMounted) {
-    return null
-  }
 
   return (
     <Layout>
