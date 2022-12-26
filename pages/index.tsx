@@ -4,11 +4,54 @@ import type { NextPage } from 'next'
 import { useAccount, useProvider } from 'wagmi'
 import { Layout } from '../components/layout/Layout'
 import { useIsMounted } from '../hooks/useIsMounted'
-
+import axios from 'axios'
 import { AppConfig } from '@/utils/AppConfig'
+import { useEffect } from 'react'
 
 const Home: NextPage = () => {
   const { address } = useAccount()
+  useEffect(() => {
+    const url = `https://api-testnet.polygonscan.com/api`
+
+    axios
+      .get(
+        'https://api-testnet.polygonscan.com/api',
+        {
+          module: 'account',
+          action: 'txlist',
+          address: '0x756212f2Eb2cbd97CAc8B8f16ff044fe6281FDcf',
+          startblock: 0,
+          endblock: 99999999,
+          sort: 'asc',
+          apikey: 'WUFIHMN5Z6KEG518REMKFMD928HKSS4KWT',
+        },
+        { 'Content-Type': 'application/x-www-form-urlencoded' }
+      )
+      .then(function (response) {
+        // handle success
+        console.log(response)
+      })
+    //   sendRequest(url, method, body) {
+    //     const options = {
+    //         method: method,
+    //         headers: new Headers({'content-type': 'application/json'}),
+    //         mode: 'no-cors'
+    //     };
+
+    //     options.body = JSON.stringify(body);
+
+    //     return fetch(url, options);
+    // }
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        // setTimeout(() => setStory(data), 1500)
+        console.log('Success ', data)
+      })
+      .catch((error) => {
+        console.log('Error', error)
+      })
+  }, [])
 
   return (
     <Layout>
