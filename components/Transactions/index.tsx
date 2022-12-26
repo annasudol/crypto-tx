@@ -1,5 +1,5 @@
 import { Text, useToast, Stack, Flex, Box } from '@chakra-ui/react'
-import { useAccount } from 'wagmi'
+import { useAccount, useConnect } from 'wagmi'
 import axios, { AxiosRequestConfig } from 'axios'
 import { TransactionItem } from './TransactionItem'
 import {
@@ -20,7 +20,7 @@ import { Spinner } from '@chakra-ui/react'
 const NEXT_POLYSCAL_API_KEY = process.env.NEXT_POLYSCAL_API_KEY!!
 
 export const TransactionList: React.FC = () => {
-  const { address } = useAccount()
+  const { address, connector, isConnected } = useAccount()
   const toast = useToast()
   const [txData, setTxData] = useState<ITxData[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -58,25 +58,18 @@ export const TransactionList: React.FC = () => {
       setIsLoading(true)
       try {
         const result = await axios(options)
-        console.log(result)
+        setIsLoading(false)
+        console.log(result.data)
         if (
           result.status === 200 &&
           result.data &&
           result.data.message === 'OK'
         ) {
           setTxData(result.data.result)
-          setIsLoading(false)
+          setMessage(undefined)
         } else {
           setMessage(result.data.message)
-          // toast({
-          //   title: 'failed fetching data',
-          //   description: <Text>{result.status}</Text>,
-          //   status: 'error',
-          //   duration: 5000,
-          //   isClosable: true,
-          // })
         }
-        setIsLoading(false)
       } catch (error: any) {
         toast({
           title: 'Error fetching data',
@@ -90,7 +83,7 @@ export const TransactionList: React.FC = () => {
       }
     }
     address && getTransactionsData()
-  }, [])
+  }, [address, pagesCount])
   const handlePageChange = (nextPage: number): void => {
     setCurrentPage(nextPage)
   }
@@ -122,10 +115,19 @@ export const TransactionList: React.FC = () => {
       </Box>
     )
   }
+  if (txData.length < 4) {
+    return (
+      <Stack>
+        {paginate(txData, 3, currentPage).map((data) => {
+          return <TransactionItem {...data} key={data.blockHash} />
+        })}
+      </Stack>
+    )
+  }
   return (
     <Stack>
       {paginate(txData, 3, currentPage).map((data) => {
-        return <TransactionItem {...data} />
+        return <TransactionItem {...data} key={data.blockHash} />
       })}
 
       <Pagination
@@ -164,18 +166,18 @@ export const TransactionList: React.FC = () => {
           >
             {pages.map((page: number) => (
               <PaginationPage
-                w={7}
+                w={page > 100 ? 12 : 7}
                 bg="red.300"
                 key={`pagination_page_${page}`}
                 page={page}
-                fontSize="sm"
+                fontSize="xs"
                 _hover={{
                   bg: 'green.300',
                 }}
                 _current={{
                   bg: 'green.300',
                   fontSize: 'sm',
-                  w: 7,
+                  w: page > 100 ? '12' : 7,
                 }}
               />
             ))}
