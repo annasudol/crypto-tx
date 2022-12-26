@@ -1,5 +1,7 @@
 import { Container, Flex, Box, Text } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+// import { WalletConnect } from '../WalletConnect'
+
 import { Head, MetaProps } from './Head'
 import { AppConfig } from '@/utils/AppConfig'
 
@@ -13,14 +15,14 @@ export const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
     <>
       <Head customMeta={customMeta} />
       <header>
-        <Container maxWidth="container.xl" mt="8" py="8">
+        <Container maxWidth="container.md" mt="8" py="8">
           <Flex alignItems={'center'} justifyContent={'flex-end'}>
             <ConnectButton />
           </Flex>
         </Container>
       </header>
       <main>
-        <Container maxWidth="container.xl">{children}</Container>
+        <Container maxWidth="container.md">{children}</Container>
       </main>
       <footer>
         <Container
@@ -34,7 +36,7 @@ export const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
           }}
         >
           <Text mb="4">
-            © Copyright {new Date().getFullYear()} {AppConfig.title}
+            © Copyright {AppConfig.site_name} {new Date().getFullYear()}
           </Text>
         </Container>
       </footer>
