@@ -14,15 +14,6 @@ The app was build using:
 
 ## Getting Started
 
-### Add Local dependencies
-set up the local configuration file.
-
-```bash
-cp .env.local.example .env.local
-```
-
-This will create a file called `.env.local`. Open up that file and fill in the `NEXT_PUBLIC_ALCHEMY_API_KEY=` and `NEXT_POLYSCAL_API_KEY=` environment variables.
-
 It is recommended to use Yarn to avoid dependency collisions: [Yarn](https://classic.yarnpkg.com/en/docs/install)
 
 ```bash
@@ -32,7 +23,12 @@ cd crypto-tx
 yarn install
 yarn run dev
 ```
-
 This will start up the Next.js development server. Your site will be available at http://localhost:3000/
 
-To interact with the app, be sure to switch your MetaMask Network to Polygon Mumbai Testnet network
+To interact with the app, be sure to switch your MetaMask Network to the Polygon Mumbai Testnet network
+
+## Add Local dependencies
+set up the local configuration file.
+
+Create a file called `.env.local`. Open up that file and fill in the `NEXT_PUBLIC_ALCHEMY_API_KEY=` and `NEXT_POLYSCAL_API_KEY=` environment variables.
+
