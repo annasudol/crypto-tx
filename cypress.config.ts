@@ -7,12 +7,11 @@ export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       cypressMetamask(on, {
-        secretWordsOrPrivateKey: "that olive candy yellow void certain burden result spike leader dose news",
+        secretWordsOrPrivateKey: process.env.SECRET_WORDS,
         network: 'PolygonMumbai',
         password: 'TestMetaMask',
       });
       return config;
-      // implement node event listeners here
     },
   },
 });
