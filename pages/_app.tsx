@@ -22,7 +22,7 @@ const { chains, provider, webSocketProvider } = configureChains(
     publicProvider(),
   ]
 )
-const appInfo = {
+const appInfo: { appName: string } = {
   appName: 'Tx Mumbai',
 }
 const { wallets } = getDefaultWallets({

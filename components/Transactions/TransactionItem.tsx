@@ -2,21 +2,7 @@ import { Box, Divider, useToast, Text, Link } from '@chakra-ui/react'
 import { useAccount } from 'wagmi'
 
 import { ITxData } from 'types'
-// from: string
-// functionName: string
-// gas: string
-// gasPrice: string
-// gasUsed: string
-// hash: string
-// input: string
-// isError: string
-// methodId: string
-// nonce: string
-// timeStamp: string
-// to: string
-// transactionIndex: string
-// txreceipt_status: string
-// value: string
+
 export const TransactionItem: React.FC<ITxData> = ({
   hash,
   timeStamp,
@@ -27,7 +13,7 @@ export const TransactionItem: React.FC<ITxData> = ({
   nonce,
 }) => {
   return (
-    <Box mb="2" bg="gray.100" rounded={'md'} padding="2">
+    <Box mb="2" bg="gray.100" rounded={'md'} padding="2" className="tx-item">
       <Text fontSize="sm" mb="1">
         <b>Hash</b>: {hash}
       </Text>

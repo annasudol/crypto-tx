@@ -9,7 +9,6 @@ import { TransactionList } from '../components/Transactions'
 
 const Home: NextPage = () => {
   const { isMounted } = useIsMounted()
-
   if (!isMounted) {
     return null
   }

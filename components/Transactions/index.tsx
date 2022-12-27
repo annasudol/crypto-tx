@@ -1,5 +1,5 @@
 import { Text, useToast, Stack, Flex, Box } from '@chakra-ui/react'
-import { useAccount, useConnect } from 'wagmi'
+import { useAccount } from 'wagmi'
 import axios, { AxiosRequestConfig } from 'axios'
 import { TransactionItem } from './TransactionItem'
 import {
@@ -20,14 +20,14 @@ import { Spinner } from '@chakra-ui/react'
 const NEXT_POLYSCAL_API_KEY = process.env.NEXT_POLYSCAL_API_KEY!!
 
 export const TransactionList: React.FC = () => {
-  const { address, connector, isConnected } = useAccount()
+  const { address, isConnected } = useAccount()
   const toast = useToast()
   const [txData, setTxData] = useState<ITxData[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>()
   const { pages, pagesCount, currentPage, setCurrentPage, isDisabled } =
     usePagination({
-      total: txData.length,
+      total: txData?.length,
       limits: { outer: 2, inner: 2 },
       initialState: {
         pageSize: 3,
@@ -59,7 +59,6 @@ export const TransactionList: React.FC = () => {
       try {
         const result = await axios(options)
         setIsLoading(false)
-        console.log(result.data)
         if (
           result.status === 200 &&
           result.data &&
@@ -86,6 +85,21 @@ export const TransactionList: React.FC = () => {
   }, [address, pagesCount])
   const handlePageChange = (nextPage: number): void => {
     setCurrentPage(nextPage)
+  }
+  if (!isConnected) {
+    return (
+      <Box height="150px" mb="2" bg="gray.100" rounded={'md'} padding="2">
+        <Text
+          fontSize="2xl"
+          mb="1"
+          textColor="gray.500"
+          textAlign="center"
+          mt="12"
+        >
+          Wallet not connected
+        </Text>
+      </Box>
+    )
   }
   if (isLoading) {
     return (
@@ -115,7 +129,7 @@ export const TransactionList: React.FC = () => {
       </Box>
     )
   }
-  if (txData.length < 4) {
+  if (txData && txData.length < 4) {
     return (
       <Stack>
         {paginate(txData, 3, currentPage).map((data) => {
