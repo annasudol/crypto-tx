@@ -69,7 +69,7 @@ export const TransactionList: React.FC = () => {
         } else {
           setMessage(result.data.message)
         }
-      } catch (error: any) {
+      } catch (error) {
         toast({
           title: 'Error fetching data',
           description: <Text>{error.code || error.response.status}</Text>,
