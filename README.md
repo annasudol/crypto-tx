@@ -32,3 +32,10 @@ set up the local configuration file.
 
 Create a file called `.env.local`. Open up that file and fill in the `NEXT_PUBLIC_ALCHEMY_API_KEY=` and `NEXT_POLYSCAL_API_KEY=` environment variables.
 
+## Testing Application
+
+The App was tested using Cypress end-to-end test.
+
+```bash
+yarn run cy:open
+```
