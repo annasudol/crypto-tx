@@ -26,7 +26,7 @@ const appInfo: { appName: string } = {
   appName: 'Tx Mumbai',
 }
 const { wallets } = getDefaultWallets({
-  appInfo,
+  appName: 'Tx Mumbai',
   chains,
 })
 
